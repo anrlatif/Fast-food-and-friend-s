@@ -1,8 +1,8 @@
 document.addEventListener('alpine:init', () => {
     Alpine.data('products', () => ({
       items: [
-        { id: 1, name: 'Spaghetti Bolognese', img: '1.jpg', price: 30000, description: 'Spaghetti dengan saus bolognese yang lezat.' },
-        { id: 2, name: 'Spaghetti Carbonara', img: '2.jpg', price: 30000, description: 'Spaghetti dengan saus carbonara yang creamy.' },
+        { id: 1, name: 'Spaghetti Bolognese', img: '1.jpg', price: 20000, description: 'Spaghetti dengan saus bolognese yang lezat.' },
+        { id: 2, name: 'Spaghetti Carbonara', img: '2.jpg', price: 20000, description: 'Spaghetti dengan saus carbonara yang creamy.' },
       ],
       showDetail(item) {
         alert(`Detail Produk:\nNama: ${item.name}\nDeskripsi: ${item.description}\nHarga: ${rupiah(item.price)}`);
@@ -11,7 +11,7 @@ document.addEventListener('alpine:init', () => {
     
     Alpine.store('cart', {
         items: [],
-        qty: 0,
+        quantity: 0,
         totjum: 0,
         add(newItem) {
             //Cek apakah ada barang yang sama di keranjang (cart)
@@ -19,8 +19,8 @@ document.addEventListener('alpine:init', () => {
 
             //Jika keranjang kosong
             if(!cartItem) {
-                this.items.push({...newItem, qty: 1, totjum: newItem.price});
-                this.qty++;
+                this.items.push({...newItem, quantity: 1, totjum: newItem.price});
+                this.quantity++;
                 this.totjum += newItem.price;
             } else {
             //Jika barang sudah ada, cek apakah barang beda atau sama dengan yang ada di keranjang
@@ -29,10 +29,10 @@ document.addEventListener('alpine:init', () => {
                 if(item.id !== newItem.id) {
                     return item;
                 } else {
-                    //Jika barang sudah ada, tambah qty dan total jumlahnya
-                    item.qty++
-                    item.totjum = item.price * item.qty;
-                    this.qty++;
+                    //Jika barang sudah ada, tambah quantity dan total jumlahnya
+                    item.quantity++
+                    item.totjum = item.price * item.quantity;
+                    this.quantity++;
                     this.totjum += item.price;
                     return item;
                 }
@@ -41,15 +41,15 @@ document.addEventListener('alpine:init', () => {
         },
         remove(item) {
             //Jika item di keranjang lebih dari 1
-            if(item.qty > 1) {
-                item.qty--;
-                item.totjum = item.price * item.qty;
-                this.qty--;
+            if(item.quantity > 1) {
+                item.quantity--;
+                item.totjum = item.price * item.quantity;
+                this.quantity--;
                 this.totjum -= item.price;
                 } else {
                     //Jika item di keranjang hanya 1
                     this.items = this.items.filter((i) => i.id !== item.id);
-                    this.qty--;
+                    this.quantity--;
                     this.totjum -= item.price;
                 }
             },
@@ -77,7 +77,7 @@ form.addEventListener('keyup', function() {
 
 // Format Pesan WhatsApp
 const formatMessage = (obj) => {
-    const items = JSON.parse(obj.items).map((item) => `${item.name} (${item.qty} X ${rupiah(item.totjum)})`).join('\n');
+    const items = JSON.parse(obj.items).map((item) => `${item.name} (${item.quantity} X ${rupiah(item.totjum)})`).join('\n');
     
     return `Data Customer
 Nama: ${obj.name}
@@ -93,15 +93,47 @@ Terimakasih.`;
 };
 
 // Kirim data ke WhatsApp
-checkoutButton.addEventListener('click', function(e) {
+checkoutButton.addEventListener('click', async function(e) {
     e.preventDefault();
     const formData = new FormData(form);
     const data = new URLSearchParams(formData);
     const objData = Object.fromEntries(data);
-    const message = formatMessage(objData);
-    const whatsappUrl = `https://wa.me/6285770032102?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl);
-    console.log(objData); // Pastikan objData tidak kosong dan berisi data yang benar
+    // const message = formatMessage(objData);
+    // const whatsappUrl = `https://wa.me/6285770032102?text=${encodeURIComponent(message)}`;
+    // window.open(whatsappUrl);
+    // console.log(objData);
+
+    //minta transaction token menggunakan ajax / fetch
+    try {
+        const response = await fetch('php/placeOrder.php', {
+            method: 'POST',
+            body: data,
+        });
+        const token = await response.text();
+        // console.log(token);
+        window.snap.pay(token, {
+            onSuccess: function(result){
+              /* You may add your own implementation here */
+              alert("Pembayaran Anda Berhasil"); console.log(result);
+            },
+            onPending: function(result){
+              /* You may add your own implementation here */
+              alert("Menunggu Pembayaran"); console.log(result);
+            },
+            onError: function(result){
+              /* You may add your own implementation here */
+              alert("Pembayaran Anda Gagal"); console.log(result);
+            },
+            onClose: function(){
+              /* You may add your own implementation here */
+              alert('you closed the popup without finishing the payment');
+            }
+          })
+    } catch (err) {
+        console.log(err.message);
+    }
+    
+
 });
 
 

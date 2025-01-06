@@ -124,7 +124,7 @@ body {
   position: relative;
 }
 
-#shopping-cart-button .qty-badge {
+#shopping-cart-button .quantity-badge {
   display: inline-block;
   padding: 1px 5px;
   background-color: #f48a00;
@@ -249,7 +249,7 @@ body {
 
 /* Hero Section */
 .hero {
-  min-height: 100vh;
+  min-height: 120vh;
   display: flex;
   align-items: center;
   background-image: url("../img/header-bg.jpg");
@@ -488,6 +488,28 @@ body {
   opacity: 0.8;
 }
 
+/* CSS untuk video di dalam class content */
+.content video {
+  width: 50%; /* Sesuaikan ukuran lebar video */
+  height: auto; /* Biarkan tinggi menyesuaikan proporsi */
+  max-width: 400px; /* Batasi lebar maksimum video */
+  margin: 0 auto; /* Pusatkan video */
+  display: block; /* Pastikan video ditampilkan sebagai blok */
+}
+
+/* CSS untuk teks h3 di dalam class content */
+.content h1 {
+  text-align: center; /* Rata tengah teks */
+  margin: 0 auto; /* Memusatkan elemen h3 */
+  max-width: 80%; /* Batasi lebar maksimum teks */
+}
+
+/* CSS untuk teks di dalam class content */
+.content p {
+  text-align: center; /* Rata tengah teks */
+  margin: 0 auto; /* Memusatkan elemen p */
+  max-width: 80%; /* Batasi lebar maksimum teks */
+}
 
 /* Contact Section */
 .contact .row {
