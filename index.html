@@ -173,8 +173,8 @@
     <section class="products" id="products" x-data="products">
       <h2><span>Produk Unggulan</span> Kami</h2>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo unde eum,
-        ab fuga possimus iste.
+        Spaghetti Bolognese dan Spaghetti Carbonara adalah dua hidangan pasta
+        klasik Italia yang sangat populer di seluruh dunia.
       </p>
 
       <div class="row">
@@ -224,10 +224,6 @@
     <!-- Contact Section start -->
     <section id="contact" class="contact">
       <h2><span>Kontak</span> Kami</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis,
-        provident.
-      </p>
 
       <div class="row">
         <iframe
@@ -240,18 +236,21 @@
           class="map"
         ></iframe>
 
-        <form action="">
+        <form id="contactForm">
           <div class="input-group">
             <i data-feather="user"></i>
-            <input type="text" placeholder="nama" />
+            <label for="nama">Nama:</label><br>
+            <input type="text" id="nama" name="nama" required><br><br>
           </div>
           <div class="input-group">
             <i data-feather="mail"></i>
-            <input type="text" placeholder="email" />
+            <label for="mail">Email:</label><br>
+            <input type="email" id="mail" name="email" required><br><br>
           </div>
           <div class="input-group">
             <i data-feather="phone"></i>
-            <input type="text" placeholder="no hp" />
+            <label for="phone">No HP:</label>
+            <input type="text" id="nohp" name="phone" required><br><br>
           </div>
           <button type="submit" class="btn">kirim pesan</button>
         </form>
@@ -275,7 +274,7 @@
 
       <div class="credit">
         <p>
-          Created by <a href="">Teknik Informatika Angkatan </a>. | &copy; 2022.
+          Created by <a href="">Teknik Informatika Angkatan 2022.</a>.
         </p>
       </div>
     </footer>

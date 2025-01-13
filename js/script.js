@@ -41,3 +41,22 @@ document.addEventListener("click", function (e) {
   }
 });
 
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Mencegah form dari pengiriman default
+
+  // Ambil nilai dari input form
+  const nama = document.getElementById('nama').value;
+  const email = document.getElementById('mail').value;
+  const phone = document.getElementById('nohp').value;
+
+
+  // Format pesan untuk WhatsApp
+  const whatsappMessage = `Halo, saya ${nama} dengan email ${email} dan no HP ${phone}. Saya ingin menghubungi Anda.`;
+
+  //Buat URL WhatsApp
+  const whatsappUrl = `https://wa.me/6285770032102?text=${encodeURIComponent(whatsappMessage)}`;
+
+  // Arahkan pengguna ke WhatsApp
+  window.open(whatsappUrl);
+});
+
