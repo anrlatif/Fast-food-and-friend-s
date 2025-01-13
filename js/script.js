@@ -54,7 +54,7 @@ document.getElementById('contactForm').addEventListener('submit', function(event
   const whatsappMessage = `Halo, saya ${nama} dengan email ${email} dan no HP ${phone}. Saya ingin menghubungi Anda.`;
 
   //Buat URL WhatsApp
-  const whatsappUrl = `https://wa.me/6285770032102?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappUrl = `https://wa.me/6281281943287?text=${encodeURIComponent(whatsappMessage)}`;
 
   // Arahkan pengguna ke WhatsApp
   window.open(whatsappUrl);
